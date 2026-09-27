@@ -1,0 +1,421 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Header & Navigation */
+.header {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: white;
+}
+
+.icon {
+  font-size: 32px;
+}
+
+.logo h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.navLinks {
+  display: flex;
+  gap: 24px;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #ffd700;
+}
+
+/* Main Content */
+.main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 60px 24px;
+  margin: -40px -24px 0;
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.heroIcon {
+  font-size: 64px;
+  animation: bounce 2s infinite;
+}
+
+.hero h2 {
+  font-size: 40px;
+  margin: 0;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  max-width: 500px;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Section */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  margin: 0;
+  color: white;
+}
+
+/* Club Selection Grid */
+.clubGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.clubButton {
+  padding: 16px 12px;
+  border-radius: 8px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.clubButton:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.clubButtonActive {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.2);
+}
+
+.clubEmoji {
+  font-size: 28px;
+}
+
+.clubLabel {
+  text-transform: capitalize;
+}
+
+/* Feature Grid */
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s;
+}
+
+.featureCard:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 215, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.featureIcon {
+  font-size: 32px;
+}
+
+.featureCard h4 {
+  font-size: 16px;
+  margin: 0;
+  color: white;
+}
+
+.featureCard p {
+  font-size: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* CTA Section */
+.ctaSection {
+  text-align: center;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.ctaButton {
+  background: #ffd700;
+  color: #0f4c2f;
+  padding: 16px 48px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 280px;
+  transition: all 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.ctaButton:hover:not(:disabled) {
+  background: #ffed4e;
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.ctaButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(15, 76, 47, 0.2);
+  border-top-color: #0f4c2f;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.ctaHint {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* Steps Grid */
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.step {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  text-align: center;
+}
+
+.stepNumber {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #0f4c2f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.step h4 {
+  font-size: 16px;
+  margin: 0;
+  color: white;
+}
+
+.step p {
+  font-size: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding: 32px 24px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footerMeta {
+  margin-top: 8px;
+  font-size: 12px !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.footer a {
+  color: #ffd700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer a:hover {
+  color: #ffed4e;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px;
+    gap: 32px;
+  }
+
+  .hero {
+    padding: 40px 16px;
+    margin: -24px -16px 0;
+  }
+
+  .hero h2 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .clubGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ctaButton {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .stepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav {
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px 16px;
+  }
+
+  .navLinks {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h2 {
+    font-size: 24px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .clubGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .clubButton {
+    padding: 12px 8px;
+    font-size: 11px;
+  }
+
+  .clubEmoji {
+    font-size: 20px;
+  }
+}

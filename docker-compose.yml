@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  # ============================================================================
+  # PostgreSQL Database
+  # ============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: golf_coach_db
+    environment:
+      POSTGRES_DB: golf_coach
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - golf_coach_network
+
+  # ============================================================================
+  # Frontend (Next.js)
+  # ============================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: golf_coach_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:5000
+      NEXT_PUBLIC_AI_WORKER_URL: http://localhost:8000
+      NODE_ENV: development
+    depends_on:
+      - api
+      - ai_worker
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - golf_coach_network
+    command: npm run dev
+
+  # ============================================================================
+  # Backend API (Node.js + Express)
+  # ============================================================================
+  api:
+    build:
+      context: ./backend/api
+      dockerfile: Dockerfile
+    container_name: golf_coach_api
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/golf_coach
+      NEXT_PUBLIC_AI_WORKER_URL: http://ai_worker:8000
+      JWT_SECRET: dev_secret_change_in_production
+      API_PORT: 5000
+      CORS_ORIGIN: http://localhost:3000,http://localhost:3001
+      STORAGE_PATH: /app/uploads/videos
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend/api:/app
+      - /app/node_modules
+      - ./uploads/videos:/app/uploads/videos
+    networks:
+      - golf_coach_network
+    command: npm start
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # AI Worker (Python + FastAPI)
+  # ============================================================================
+  ai_worker:
+    build:
+      context: ./backend/ai-worker
+      dockerfile: Dockerfile
+    container_name: golf_coach_ai_worker
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHON_ENV: development
+      AI_WORKER_PORT: 8000
+      MEDIAPIPE_GPU: "false"
+      MODEL_PATH: /app/models
+    volumes:
+      - ./backend/ai-worker:/app
+      - ./uploads/videos:/app/uploads/videos
+      - ./backend/ai-worker/models:/app/models
+    networks:
+      - golf_coach_network
+    command: python main.py
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # Redis (Optional - for caching)
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: golf_coach_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - golf_coach_network
+    command: redis-server --appendonly yes
+
+  # ============================================================================
+  # Adminer (Database UI - optional)
+  # ============================================================================
+  adminer:
+    image: adminer:latest
+    container_name: golf_coach_adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - golf_coach_network
+
+networks:
+  golf_coach_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
