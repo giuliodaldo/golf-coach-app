@@ -58,3 +58,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+// Vercel rebuild trigger
