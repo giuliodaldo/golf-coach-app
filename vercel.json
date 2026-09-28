@@ -1,4 +1,0 @@
-{
-  "root": "frontend",
-  "buildCommand": "npm install && npm run build"
-}
